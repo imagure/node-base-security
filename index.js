@@ -14,7 +14,7 @@ router.get('/login', function(ctx, next) {
 
 
 const server = app.listen(3000, function(){
-	console.log("Server running")
+	console.log("Server  running")
 });
 
 module.exports = server;
