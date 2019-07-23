@@ -17,6 +17,9 @@
   height: 28rem;
   background-color: white;
   border-radius: 15px;
+  box-shadow: 10px 10px 17px 0px rgba(0,0,0,0.75);
+  -webkit-box-shadow: 10px 10px 17px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 10px 10px 17px 0px rgba(0,0,0,0.75);
 }
 button{
   width: 13.5rem;
@@ -25,5 +28,14 @@ input{
   margin-bottom: 1rem;
 }
 h3{
+  margin-bottom: 0%;
+  margin-top: 0%;
+  color: dimgray;
+}
+h1{
   margin-bottom: 4rem;
+}
+a{
+  text-decoration: none;
+  font-size: 1.2rem;
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import './App.css';
+import { Link } from 'react-router-dom'
 
 class App extends Component {
   state = {
@@ -25,24 +26,27 @@ render() {
       <div className="App">
           <div className="App-header">
         <form>
-            <h3><strong>Send to Server:</strong></h3>
+            <h1><strong>Login</strong></h1>
+            <h3>Username:</h3>
           <input
               type="text"
               value={this.state.text}
               onChange={e => this.setState({ text: e.target.value })}
           />
+            <h3>Password:</h3>
             <input
                 type="password"
                 value={this.state.password}
                 onChange={e => this.setState({ password: e.target.value })}
              />
-          <button type="submit" onClick={this.handleSubmit()}> Submit </button>
+          <button type="submit" onClick={this.handleSubmit}> Submit </button>
         </form>
-          </div>
         <p>
             <strong>Users list:</strong>
         </p>
        {this.state.data.data && this.state.data.data.map(user => {return(<p>{user.name}</p>)} )}
+              <Link to="/Register">Sign up here</Link>
+          </div>
       </div>
     );
   }
