@@ -14,12 +14,14 @@
   text-align: center;
   justify-content: center;
   width: 25rem;
-  height: 28rem;
+  height: 35rem;
   background-color: white;
   border-radius: 15px;
 }
 button{
   width: 13.5rem;
+  margin-left: 50%;
+  transform: translateX(-50%);
 }
 input{
   margin-bottom: 1rem;

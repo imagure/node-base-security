@@ -2,25 +2,43 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import './App.css';
 
+
 class App extends Component {
   state = {
-    status: '',
-    data: ''
+    name: '',
+    password: '',
+    status:'',
+    users: []
   };
-  
-handleSubmit(){
-  //const msg = {name: "Ricardo"};
-  axios.post('http://localhost:4000/users', {name: ["Ricardo"], password: "123"})
+
+componentDidMount() {
+  axios.get('http://localhost:4000/users')
     .then(res => {
-      console.log(res)
-      const users = res.data;
-      this.setState({ data: users })
+      const users = res.data.data;
+      this.setState({ users: users })
+  });
+}
+
+handleClick = () => {
+  console.log("handler: ", this.state)
+  const payload = {name: this.state.name,
+                   password: this.state.password};
+  //const msg = jwt.sign(payload, privateKEY, signOptions)
+  axios.post('http://localhost:4000/validate_user', payload)
+    .then(res => {
+      console.log('res1: ', res)
+      axios.post('http://localhost:4000/login', res.data)
+      .then(res => {
+        console.log('res: ', res)
+        const status = res.data.status;
+        this.setState({ status: status })
+      })
   });
 };
 
 
 render() {
-  console.log(this.state)
+  console.log('render: ', this.state)
     return (
       <div className="App">
           <div className="App-header">
@@ -29,20 +47,26 @@ render() {
           <input
               type="text"
               value={this.state.text}
-              onChange={e => this.setState({ text: e.target.value })}
+              onChange={e => this.setState({ name: e.target.value })}
           />
             <input
                 type="password"
                 value={this.state.password}
                 onChange={e => this.setState({ password: e.target.value })}
              />
-          <button type="submit" onClick={this.handleSubmit()}> Submit </button>
         </form>
-          </div>
+            <button onClick={this.handleClick}> Send </button>        
         <p>
-            <strong>Users list:</strong>
+          <strong> Status: </strong>
         </p>
-       {this.state.data.data && this.state.data.data.map(user => {return(<p>{user.name}</p>)} )}
+        {this.state.status}
+        
+        <p>
+          <strong>Users list:</strong>
+        </p>
+        {this.state.users && this.state.users.map(user => {return( <p> {user.name} </p> )} )}
+       
+       </div>
       </div>
     );
   }
