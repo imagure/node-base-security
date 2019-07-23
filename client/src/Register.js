@@ -4,23 +4,35 @@ import './App.css';
 
 class Register extends Component {
     state = {
-        status: '',
-        data: ''
+        name: '',
+        password: '',
+        status:'',
+        users: []
     };
 
-    handleSubmit(){
-        //const msg = {name: "Ricardo"};
-        axios.post('http://localhost:4000/users', {name: ["Ricardo"], password: "123"})
+    componentDidMount() {
+      axios.get('http://localhost:4000/users')
+        .then(res => {
+          const users = res.data.data;
+          this.setState({ users: users })
+      });
+    }
+
+    handleCreate = () => {
+        console.log('handler: ', this.state)
+        const msg = {name: this.state.name,
+                     password: this.state.password};
+        axios.post('http://localhost:4000/new_user', msg)
             .then(res => {
-                console.log(res)
-                const users = res.data;
-                this.setState({ data: users })
+                console.log('res_new:',res)
+                const status = res.data.status;
+                this.setState({ status: status })
             });
     };
 
 
     render() {
-        console.log(this.state)
+        console.log('renderReg: ', this.state)
         return (
             <div className="App">
                 <div className="App-header">
@@ -29,8 +41,8 @@ class Register extends Component {
                         <h3>Username:</h3>
                         <input
                             type="text"
-                            value={this.state.text}
-                            onChange={e => this.setState({ text: e.target.value })}
+                            value={this.state.name}
+                            onChange={e => this.setState({ name: e.target.value })}
                         />
                         <h3>Password:</h3>
                         <input
@@ -38,12 +50,16 @@ class Register extends Component {
                             value={this.state.password}
                             onChange={e => this.setState({ password: e.target.value })}
                         />
-                        <button type="submit" onClick={this.handleSubmit}> Submit </button>
                     </form>
+                    <button onClick={this.handleCreate}> Submit </button>
+                    <p>
+                        <strong>Status:</strong>
+                    </p>
+                    {this.state.status}
                     <p>
                         <strong>Users list:</strong>
                     </p>
-                    {this.state.data.data && this.state.data.data.map(user => {return(<p>{user.name}</p>)} )}
+                    {this.state.users && this.state.users.map(user => {return(<p>{user.name}</p>)} )}
                 </div>
             </div>
         );

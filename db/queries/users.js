@@ -5,15 +5,14 @@ function getAllUsers() {
   .select('*');
 }
 
-function getUserName(id) {
-  return knex('users')
-  .select('name')
-  .where('id', id);
-}
-
 function insertNewUser(name, hash) {
-  knex('users')
-  .insert({name: name, password: hash});
+  try{
+    const insert = knex('users')
+                  .insert({name: name, password: hash});
+    return insert
+  } catch(e) {
+    return e
+  }
 }
 
 function getUserPwd(name) {
@@ -23,8 +22,7 @@ function getUserPwd(name) {
 }
 
 module.exports = {
-  getAllUsers: getAllUsers, 
-  getUserName: getUserName,
+  getAllUsers: getAllUsers,
   getUserPwd: getUserPwd,
   insertNewUser: insertNewUser
 };

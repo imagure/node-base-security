@@ -12,14 +12,6 @@ class App extends Component {
     users: []
   };
 
-componentDidMount() {
-  axios.get('http://localhost:4000/users')
-    .then(res => {
-      const users = res.data.data;
-      this.setState({ users: users })
-  });
-}
-
 handleClick = () => {
   console.log("handler: ", this.state)
   const payload = {name: this.state.name,
@@ -58,20 +50,14 @@ render() {
                 onChange={e => this.setState({ password: e.target.value })}
              />
         </form>
-            <button onClick={this.handleClick}> Send </button>        
+            <button onClick={this.handleClick}> Login </button>        
         <p>
           <strong> Status: </strong>
         </p>
         {this.state.status}
-        <p>
-          <strong>Users list:</strong>
-        </p>
-        {this.state.users && this.state.users.map(user => {return( <p> {user.name} </p> )} )}
-       
+        <Link to="/register"> Sign up here </Link>
        </div>
-              <Link to="/Register">Sign up here</Link>
-          </div>
-      </div>
+       </div>
     );
   }
 }

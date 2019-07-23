@@ -26,7 +26,7 @@ var verifyOptions = {
  subject:  s,
  audience:  a,
  expiresIn:  "12h",
- algorithm:  ["ES256"]
+ algorithm:  ["HS256"]
 };
 
 
@@ -52,8 +52,14 @@ router.post('/new_user', koaBody(), async function(ctx, next) {
     const hash = encryptPwd(password)
     console.log(name, hash)
     await queries.insertNewUser(name, hash)
+    ctx.body = {
+      status: "success"
+    };
   } catch (err) {
     console.log(err)
+    ctx.body = {
+      status: "failed"
+    };
   }
 })
 
@@ -67,6 +73,9 @@ router.post('/validate_user', koaBody(), async function(ctx, next) {
     }
   } catch (err) {
     console.log(err)
+    ctx.body = {
+      status: 'failed'
+    };
   }
 })
 
@@ -78,7 +87,6 @@ router.post('/login', koaBody(), async function(ctx, next) {
     const name = ctx.request.body.name
     const password = ctx.request.body.password
     const hash = await queries.getUserPwd(name)
-
     if (validateUser(password, hash)) {
       ctx.body = {
       status: 'success'
@@ -90,7 +98,10 @@ router.post('/login', koaBody(), async function(ctx, next) {
     }
 
   } catch (err) {
-    console.log(err)
+    console.log(err);
+    ctx.body = {
+      status: 'failed'
+    };
   }
 })
 
