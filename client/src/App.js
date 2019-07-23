@@ -8,9 +8,9 @@ class App extends Component {
     data: ''
   };
   
-componentDidMount(){
+handleSubmit(){
   //const msg = {name: "Ricardo"};
-  axios.post('http://localhost:4000/users', {name: "Ricardo", password: "123"})
+  axios.post('http://localhost:4000/users', {name: ["Ricardo"], password: "123"})
     .then(res => {
       console.log(res)
       const users = res.data;
@@ -23,17 +23,22 @@ render() {
   console.log(this.state)
     return (
       <div className="App">
+          <div className="App-header">
         <form>
-          <p>
-            <strong>Send to Server:</strong>
-          </p>
+            <h3><strong>Send to Server:</strong></h3>
           <input
-            type="text"
-            value={this.state.text}
-            onChange={e => this.setState({ text: e.target.value })}
+              type="text"
+              value={this.state.text}
+              onChange={e => this.setState({ text: e.target.value })}
           />
-          <button> Submit </button>
+            <input
+                type="password"
+                value={this.state.password}
+                onChange={e => this.setState({ password: e.target.value })}
+             />
+          <button type="submit" onClick={this.handleSubmit()}> Submit </button>
         </form>
+          </div>
         <p>
             <strong>Users list:</strong>
         </p>
