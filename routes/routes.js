@@ -46,7 +46,6 @@ router.get('/users', async function(ctx, next) {
 router.post('/new_user', koaBody(), async function(ctx, next) {
   try {
     console.log('/new_user')
-    console.log(ctx.request.body)
     const name = ctx.request.body.name
     const password = ctx.request.body.password
     const hash = encryptPwd(password)
@@ -63,42 +62,54 @@ router.post('/new_user', koaBody(), async function(ctx, next) {
   }
 })
 
-router.post('/validate_user', koaBody(), async function(ctx, next) {
+
+router.post('/verify_user', koaBody(), async function(ctx, next) {
   try {
-    console.log('/validate_user')
-    console.log(ctx.request.body)
-    const token = jwt.sign(ctx.request.body, privateKEY, signOptions);
+    console.log('/verify_user')
+    const token = ctx.request.header.token
+    console.log(token)
+    if (token === undefined) {
+      return ({ status: false, message: 'No token provided.' });
+    }
+    jwt.verify(token, publicKEY, function(err, decoded) {
+      if (err) return ({ status: false, message: 'Failed to authenticate token.' });
+    })
     ctx.body = {
-      token: token
+      status: true,
+      message: "You are logged"
     }
   } catch (err) {
     console.log(err)
     ctx.body = {
-      status: 'failed'
+      status: false,
+      message: "Failed attempt to verify user"
     };
   }
-})
+});
 
 router.post('/login', koaBody(), async function(ctx, next) {
   try {
     console.log('/login')
-    const token = jwt.verify(ctx.request.body.token, publicKEY, verifyOptions);
-    console.log(token)
     const name = ctx.request.body.name
     const password = ctx.request.body.password
     const hash = await queries.getUserPwd(name)
     if (validateUser(password, hash)) {
+      console.log("valid user")
+      const token = jwt.sign(ctx.request.body, privateKEY, signOptions);
       ctx.body = {
-      status: 'success'
-    };
+        token: token,
+        status: 'logged'
+      }
     } else {
+      console.log("invalid user")
       ctx.body = {
-      status: 'failed'
-    };
+        status: 'failed'
+      };
     }
 
   } catch (err) {
     console.log(err);
+    console.log("failed validation");
     ctx.body = {
       status: 'failed'
     };

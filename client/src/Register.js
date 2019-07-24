@@ -6,17 +6,8 @@ class Register extends Component {
     state = {
         name: '',
         password: '',
-        status:'',
-        users: []
+        status:''
     };
-
-    componentDidMount() {
-      axios.get('http://localhost:4000/users')
-        .then(res => {
-          const users = res.data.data;
-          this.setState({ users: users })
-      });
-    }
 
     handleCreate = () => {
         console.log('handler: ', this.state)
@@ -56,10 +47,6 @@ class Register extends Component {
                         <strong>Status:</strong>
                     </p>
                     {this.state.status}
-                    <p>
-                        <strong>Users list:</strong>
-                    </p>
-                    {this.state.users && this.state.users.map(user => {return(<p>{user.name}</p>)} )}
                 </div>
             </div>
         );

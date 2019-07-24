@@ -3,14 +3,16 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import Register from './Register';
+import Restricted from './Restricted';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
 ReactDOM.render(
     <BrowserRouter>
         <Switch>
-            <Route path="/login" exact={true} component={App} />
+            <Route path="/" exact={true} component={App} />
             <Route path="/register" component={Register} />
+            <Route path="/restricted" component={Restricted} />
         </Switch>
     </ BrowserRouter>
     , document.getElementById('root'));
