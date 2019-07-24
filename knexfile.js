@@ -6,10 +6,10 @@ module.exports = {
   test: {
     client: 'pg',
     connection: {
-            host: "127.0.0.1",
-            user: "postgres",
-            password: "postgres",
-            database: "koa_login_test"
+            host: "ec2-54-235-100-99.compute-1.amazonaws.com",
+            user: "wplqipilndlzcr",
+            password: "fb21f206daadbf6c85560f4cd971e8b1bfa3ad53a9246c8f24c801656da4de68",
+            database: "d6njoctshumcgs"
     },
     migrations: {
       directory: path.join(BASE_PATH, 'migrations')
