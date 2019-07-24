@@ -19,7 +19,7 @@ handleLogin = () => {
   console.log("handleLogin: ", this.state)
   const payload = {name: this.state.name,
                    password: this.state.password};
-  axios.post('http://localhost:4000/login', payload)
+  axios.post('https://node-base-security.herokuapp.com/login', payload)
     .then(res => {
       console.log('resLogin: ', res)
       this.setState({ token: res.data.token, status: res.data.status})
@@ -34,7 +34,7 @@ handleClick = () => {
                         "Content-Type": "application/json;charset=UTF-8",
                         "token": this.state.token
                     }};
-  axios.post('http://localhost:4000/verify_user', userName, axiosConfig)
+  axios.post('https://node-base-security.herokuapp.com/verify_user', userName, axiosConfig)
       .then(res => {
         console.log('resClick: ', res)
         this.setState({ valid_user: res.data.status })
