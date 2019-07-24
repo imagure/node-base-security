@@ -1,6 +1,6 @@
 [submodule "react-login-client"]
 	path = client
 	url = https://github.com/ricardoimagure/react-login-client.git
-[submodule "node-base-security"]
+[submodule "node-login-server"]
 	path = server
-	url = https://github.com/ricardoimagure/node-base-security.git
+	url = https://github.com/ricardoimagure/node-login-server.git
