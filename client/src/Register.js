@@ -13,7 +13,7 @@ class Register extends Component {
         console.log('handler: ', this.state)
         const msg = {name: this.state.name,
                      password: this.state.password};
-        axios.post('http://localhost:4000/new_user', msg)
+        axios.post('https://node-base-security.herokuapp.com/new_user', msg)
             .then(res => {
                 console.log('res_new:',res)
                 const status = res.data.status;

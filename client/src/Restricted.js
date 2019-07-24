@@ -8,7 +8,7 @@ class Register extends Component {
     };
 
     componentDidMount() {
-      axios.get('http://localhost:4000/users')
+      axios.get('https://node-base-security.herokuapp.com/users')
         .then(res => {
           const users = res.data.data;
           this.setState({ users: users })
