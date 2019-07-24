@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import './App.css';
 
-const base_url = process.env.BASE_URL || 'http://localhost:4000'
+const base_url = 'http://localhost:4000';
 
 class Register extends Component {
     state = {

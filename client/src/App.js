@@ -4,7 +4,7 @@ import './App.css';
 import { Link } from 'react-router-dom'
 import { Redirect } from 'react-router-dom'
 
-const base_url = process.env.BASE_URL || 'http://localhost:4000'
+const base_url = 'http://localhost:4000';
 
 class App extends Component {
   state = {
@@ -24,6 +24,7 @@ handleLogin = () => {
                    expiresIn:  "12h",
                    name: this.state.name,
                    password: this.state.password};
+  console.log('base_url: ', base_url)
   axios.post(base_url + '/login', payload)
     .then(res => {
       console.log('resLogin: ', res)
@@ -39,6 +40,7 @@ handleClick = () => {
                         "Content-Type": "application/json;charset=UTF-8",
                         "token": this.state.token
                     }};
+  console.log('base_url: ', base_url)
   axios.post(base_url + '/verify_user', userName, axiosConfig)
       .then(res => {
         console.log('resClick: ', res)
