@@ -67,17 +67,20 @@ router.post('/verify_user', koaBody(), async function(ctx, next) {
   try {
     console.log('/verify_user')
     const token = ctx.request.header.token
-    console.log(token)
-    if (token === undefined) {
+    if (!token) {
       return ({ status: false, message: 'No token provided.' });
     }
-    jwt.verify(token, publicKEY, function(err, decoded) {
-      if (err) return ({ status: false, message: 'Failed to authenticate token.' });
+    jwt.verify(token, privateKEY, function(err, decoded) {
+      if (err) {
+        console.log('Token verification error!')
+        console.log(err)
+        ctx.body = { status: false, message: 'Failed to authenticate' };
+      } else {
+        console.log('Token verification succeded!')
+        const name = decoded.name
+        ctx.body = {status: true, message: "You are logged as" + name}
+      }
     })
-    ctx.body = {
-      status: true,
-      message: "You are logged"
-    }
   } catch (err) {
     console.log(err)
     ctx.body = {
@@ -95,15 +98,16 @@ router.post('/login', koaBody(), async function(ctx, next) {
     const hash = await queries.getUserPwd(name)
     if (validateUser(password, hash)) {
       console.log("valid user")
-      const token = jwt.sign(ctx.request.body, privateKEY, signOptions);
+      const payload = {name: ctx.request.body.name}
+      const token = jwt.sign(payload, privateKEY, signOptions);
       ctx.body = {
         token: token,
-        status: 'logged'
+        status: 'Logged'
       }
     } else {
       console.log("invalid user")
       ctx.body = {
-        status: 'failed'
+        status: 'Invalid user or password'
       };
     }
 
@@ -111,7 +115,7 @@ router.post('/login', koaBody(), async function(ctx, next) {
     console.log(err);
     console.log("failed validation");
     ctx.body = {
-      status: 'failed'
+      status: 'Failed Log in'
     };
   }
 })

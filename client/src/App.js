@@ -4,6 +4,7 @@ import './App.css';
 import { Link } from 'react-router-dom'
 import { Redirect } from 'react-router-dom'
 
+const base_url = process.env.BASE_URL || 'http://localhost:4000'
 
 class App extends Component {
   state = {
@@ -17,9 +18,13 @@ class App extends Component {
 
 handleLogin = () => {
   console.log("handleLogin: ", this.state)
-  const payload = {name: this.state.name,
+  const payload = {issuer:  'issuer',
+                   subject:  'subject',
+                   audience:  'audience',
+                   expiresIn:  "12h",
+                   name: this.state.name,
                    password: this.state.password};
-  axios.post('https://node-base-security.herokuapp.com/login', payload)
+  axios.post(base_url + '/login', payload)
     .then(res => {
       console.log('resLogin: ', res)
       this.setState({ token: res.data.token, status: res.data.status})
@@ -34,10 +39,10 @@ handleClick = () => {
                         "Content-Type": "application/json;charset=UTF-8",
                         "token": this.state.token
                     }};
-  axios.post('https://node-base-security.herokuapp.com/verify_user', userName, axiosConfig)
+  axios.post(base_url + '/verify_user', userName, axiosConfig)
       .then(res => {
         console.log('resClick: ', res)
-        this.setState({ valid_user: res.data.status })
+        this.setState({ valid_user: res.data.status, status: res.data.message })
       })
 }
 
@@ -70,7 +75,6 @@ render() {
         </p>
         {this.state.status}
         <Link to="/register"> Sign up here </Link>
-        {this.renderRedirect}
         <button onClick={this.handleClick}> Verify </button>
        </div>
       </div>

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import './App.css';
 
+const base_url = process.env.BASE_URL || 'http://localhost:4000'
+
 class Register extends Component {
     state = {
         name: '',
@@ -13,7 +15,7 @@ class Register extends Component {
         console.log('handler: ', this.state)
         const msg = {name: this.state.name,
                      password: this.state.password};
-        axios.post('https://node-base-security.herokuapp.com/new_user', msg)
+        axios.post(base_url + '/new_user', msg)
             .then(res => {
                 console.log('res_new:',res)
                 const status = res.data.status;
