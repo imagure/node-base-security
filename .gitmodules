@@ -1,6 +1,8 @@
 [submodule "node-login-server"]
 	path = server
+	branch = master
 	url = https://github.com/ricardoimagure/node-login-server.git
 [submodule "client"]
 	path = client
+	branch = master
 	url = https://github.com/ricardoimagure/react-login-client.git
